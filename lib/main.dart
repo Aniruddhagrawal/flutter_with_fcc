@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_with_fcc/Views/LoginView.dart';
 import 'package:flutter_with_fcc/Views/RegisterView.dart';
 import 'package:flutter_with_fcc/Views/VerifyEmailView.dart';
-import 'dart:developer' as devtools show log;
 
 import 'firebase_options.dart';
 
@@ -20,6 +19,7 @@ void main() {
       routes: {
         '/login/': (context) => const LoginView(),
         '/register/': (context) => const RegisterView(),
+        '/mainui/': (context) => const MainView(),
       },
     ),
   );
