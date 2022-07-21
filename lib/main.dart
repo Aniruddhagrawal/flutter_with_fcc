@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_with_fcc/Views/LoginView.dart';
-import 'package:flutter_with_fcc/Views/RegisterView.dart';
-import 'package:flutter_with_fcc/Views/VerifyEmailView.dart';
+import 'package:flutter_with_fcc/Views/login_view.dart';
+import 'package:flutter_with_fcc/Views/register_view.dart';
+import 'package:flutter_with_fcc/Views/verify_email_view.dart';
 import 'package:flutter_with_fcc/constants/routes.dart';
 
 import 'firebase_options.dart';
