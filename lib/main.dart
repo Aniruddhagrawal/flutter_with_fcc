@@ -5,7 +5,6 @@ import 'package:flutter_with_fcc/Views/login_view.dart';
 import 'package:flutter_with_fcc/Views/register_view.dart';
 import 'package:flutter_with_fcc/Views/verify_email_view.dart';
 import 'package:flutter_with_fcc/constants/routes.dart';
-
 import 'firebase_options.dart';
 
 void main() {

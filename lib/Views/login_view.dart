@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_with_fcc/constants/routes.dart';
 import '../utilities/show_error_dialog.dart';
@@ -62,11 +63,22 @@ class _LoginViewState extends State<LoginView> {
                   email: email,
                   password: password,
                 );
+                final user = FirebaseAuth.instance.currentUser;
+                if (user?.emailVerified ?? false) {
+                  // User's Email is verified
+
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    mainUIRoute,
+                    (route) => false,
+                  );
+                } else {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    verifyEmailRoute,
+                    (route) => false,
+                  );
+                }
                 // devtools.log(userCredential.toString());
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                  mainUIRoute,
-                  (route) => false,
-                );
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'user-not-found') {
                   // devtools.log('User Not Found');
