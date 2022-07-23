@@ -1,7 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_with_fcc/constants/routes.dart';
+import 'package:flutter_with_fcc/services/auth/auth_exceptions.dart';
+import 'package:flutter_with_fcc/services/auth/auth_service.dart';
 import '../utilities/show_error_dialog.dart';
 
 class LoginView extends StatefulWidget {
@@ -59,12 +59,16 @@ class _LoginViewState extends State<LoginView> {
               final email = _email.text;
               final password = _password.text;
               try {
-                await FirebaseAuth.instance.signInWithEmailAndPassword(
+                await AuthService.firebase().logIn(
                   email: email,
                   password: password,
                 );
-                final user = FirebaseAuth.instance.currentUser;
-                if (user?.emailVerified ?? false) {
+                // await FirebaseAuth.instance.signInWithEmailAndPassword(
+                //   email: email,
+                //   password: password,
+                // );
+                final user = AuthService.firebase().currentUser;
+                if (user?.isEmailVerified ?? false) {
                   // User's Email is verified
 
                   Navigator.of(context).pushNamedAndRemoveUntil(
@@ -79,31 +83,20 @@ class _LoginViewState extends State<LoginView> {
                   );
                 }
                 // devtools.log(userCredential.toString());
-              } on FirebaseAuthException catch (e) {
-                if (e.code == 'user-not-found') {
-                  // devtools.log('User Not Found');
-                  await showErrorDialog(
-                    context,
-                    'User Not Found',
-                  );
-                } else if (e.code == 'wrong-password') {
-                  // devtools.log('Incorrect Password');
-                  await showErrorDialog(
-                    context,
-                    'Incorrect Password',
-                  );
-                } else {
-                  // devtools.log("Something Bad Happened");
-                  // devtools.log(e.code);
-                  await showErrorDialog(
-                    context,
-                    'Error: ${e.code}',
-                  );
-                }
-              } catch (e) {
+              } on UserNotFoundAuthException {
                 await showErrorDialog(
                   context,
-                  e.toString(),
+                  'User Not Found',
+                );
+              } on WrongPasswordAuthException {
+                await showErrorDialog(
+                  context,
+                  'Incorrect Password',
+                );
+              } on GenericAuthException {
+                await showErrorDialog(
+                  context,
+                  'Authentication Error',
                 );
               }
             },

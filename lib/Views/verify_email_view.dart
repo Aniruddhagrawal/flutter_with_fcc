@@ -1,6 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_with_fcc/constants/routes.dart';
+import 'package:flutter_with_fcc/services/auth/auth_service.dart';
 import 'dart:developer' as devtools show log;
 
 import 'package:flutter_with_fcc/utilities/show_error_dialog.dart';
@@ -24,9 +24,9 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
           TextButton(
             onPressed: () async {
               try {
-                final user = FirebaseAuth.instance.currentUser;
-                await user?.sendEmailVerification();
-                // devtools.log("sent");
+                await AuthService.firebase().sendEmailVerification();
+                // final user = FirebaseAuth.instance.currentUser;
+                // await user?.sendEmailVerification();
                 await showErrorDialog(context, 'Sent');
               } catch (e) {
                 devtools.log(e.toString());
@@ -36,7 +36,7 @@ class _VerifyEmailViewState extends State<VerifyEmailView> {
           ),
           TextButton(
               onPressed: () async {
-                await FirebaseAuth.instance.signOut();
+                await AuthService.firebase().logOut();
                 Navigator.of(context).pushNamedAndRemoveUntil(
                   registerRoute,
                   (route) => false,
